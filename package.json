@@ -5,6 +5,7 @@
     "author": "Ilya Braude <ilya@cloudmine.me>",
     "description": "a simple utility to test an http server and get stats",
     "homepage": "https://github.com/zanchin/node-http-perf",
+    "keywords": ["http", "performance", "testing"],
     "repository": {
         "type": "git",
         "url": "git://github.com/zanchin/node-http-perf.git"
@@ -20,8 +21,8 @@
         "colors": "*"
     },
     "license": "MIT",
-    "engine": {
-        "node": ">=0.6"
+    "engines": {
+        "node": ">=0.6.0"
     }
 }
 

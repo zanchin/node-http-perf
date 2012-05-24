@@ -14,7 +14,7 @@ This installs an executable called `nperf`.
 
 You can run the tool directly
 
-    $ node node_modules/node-http-perf/bin/nperf
+    $ node node_modules/http-perf/bin/nperf
 
 Or if installed globally
 
