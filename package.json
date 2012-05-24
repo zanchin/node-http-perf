@@ -1,0 +1,28 @@
+{
+    "name": "http-perf",
+    "preferGlobal": true,
+    "version": "0.0.1",
+    "author": "Ilya Braude <ilya@cloudmine.me>",
+    "description": "a simple utility to test an http server and get stats",
+    "homepage": "https://github.com/zanchin/node-http-perf",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/zanchin/node-http-perf.git"
+    },
+    "directories": {
+        "bin": "./bin"
+    },
+    "bin": {
+        "nperf": "./bin/nperf"
+    },
+    "dependencies": {
+        "optimist": "*",
+        "colors": "*"
+    },
+    "license": "MIT",
+    "engine": {
+        "node": ">=0.6"
+    }
+}
+
+    

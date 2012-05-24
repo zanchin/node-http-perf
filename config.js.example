@@ -1,0 +1,24 @@
+module.exports = {
+    settings: {
+        concurrency: 10,  // -c
+        max_requests: 200,  // -n
+        output_format: 'text' // -o 'text' or 'json'
+    },
+    targets: {
+        // can have multiple targets here
+        // pick one using the --target commandline argument
+        local: {
+            host: 'localhost',
+            port: 8080,
+            path: '/path/to/http/resource',
+            headers: {  
+                'X-Optional-Header': "header value"
+            }
+        },
+        google: {
+            host: 'www.google.com',
+            port: 80,
+            path: '/'
+        }
+    }
+};
