@@ -39,7 +39,7 @@ var options = {};
 
 if( argv.conf ){
     var config_path = path.resolve(argv.conf);
-    if(!path.existsSync(config_path)){
+    if(!fs.existsSync(config_path)){
         console.error("Configuration file not found: ", config_path);
         process.exit(-1);
     }
