@@ -6,6 +6,7 @@ var https = require('https');
 var util = require('util');
 var path = require('path');
 var url = require('url');
+var fs = require('fs');
 
 var colors = require('colors');
 var argv = require('optimist')
@@ -37,8 +38,9 @@ var defaults = {
 
 var options = {};
 
+var config_path;
 if( argv.conf ){
-    var config_path = path.resolve(argv.conf);
+    config_path = path.resolve(argv.conf);
     if(!fs.existsSync(config_path)){
         console.error("Configuration file not found: ", config_path);
         process.exit(-1);
@@ -63,6 +65,7 @@ var global_output_format = argv.o || (options.settings && options.settings.outpu
 
 
 if( argv.v ){
+    console.log("config file:", config_path);
     console.log("options:", util.inspect(options));
     console.log("target:", util.inspect(target));
     console.log("concurrency:", concurrency);
@@ -72,7 +75,13 @@ if( argv.v ){
 }
 
 if(!target){
-    console.error("Error: No target specified");
+    console.error("Error: No target specified\n");
+    console.error("Available targets are:");
+    if( options.targets ){
+        for(var t in options.targets){
+            console.error("->", t);
+        }
+    }
     console.error("");
     usage(true);
     process.exit(1);
