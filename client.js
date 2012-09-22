@@ -16,9 +16,9 @@ var argv = require('optimist')
         .options('c', { describe: 'Number of concurrent requests. Default: 20' })
         .options('n', { describe: 'Max number of total requests. Default: 200' })
         .options('o', { describe: 'Output format: [text|json]. Default: text' })
-        .options('v', { alias: "verbose", describe: 'Verbose output' })
-        .options('dry-run', { describe: "Read config, but don't run (can be used with -v)" })
-        .options('help', { alias: 'h', describe: 'Print this usage and exit' })
+        .boolean('v', { alias: "verbose", describe: 'Verbose output' })
+        .boolean('dry-run', { describe: "Read config, but don't run (can be used with -v)" })
+        .boolean('help', { alias: 'h', describe: 'Print this usage and exit' })
         .argv;
 
 function usage(noexit){
@@ -33,7 +33,7 @@ argv.h && usage();
 var defaults = {
     concurrency: 20,
     max_requests: 200,
-    output_format: 'text' // 'text' or 'json'    
+    output_format: 'text' // 'text' or 'json'
 };
 
 var options = {};
@@ -86,14 +86,18 @@ if(!target){
     usage(true);
     process.exit(1);
 }
-    
+
 if( argv['dry-run'] ){
     process.exit();
 }
 
 http.globalAgent.maxSockets = concurrency+5;
 
-var http_get = target.port == 443 ? https.get : http.get;
+var http_get = http.get;
+if(target.port == 443 || target.protocol.indexOf('https') > -1){
+    http_get = https.get;
+}
+
 
 var total_requests = 0;
 var requests = 0;
@@ -142,7 +146,7 @@ var makeCall = function(done, req_id){
     http_get(target, function(res) {
         var client_time = new Date().getTime() - start;
         var status = res.statusCode;
-        
+
         // show server-compute time if server reports it
         function get_server_time(res){
             if(res.headers["x-response-time"]) return res.headers["x-response-time"];
@@ -162,7 +166,7 @@ var makeCall = function(done, req_id){
         };
 
         log_request(r);
-        
+
         done(client_time);
     }).on('error', function(e) {
         var time = new Date().getTime() - start;
@@ -205,7 +209,7 @@ log_request({status: "status", response_count: "response#",
              request_id: "request_id",
              client_time: "client time (ms)",
              server_time: "server time (ms)"});
-           
+
 
 // seed the right amount of requests
 for(var i = 0; i < concurrency; i++){
