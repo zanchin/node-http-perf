@@ -94,7 +94,7 @@ if( argv['dry-run'] ){
 http.globalAgent.maxSockets = concurrency+5;
 
 var http_get = http.get;
-if(target.port == 443 || target.protocol.indexOf('https') > -1){
+if(target.port == 443 || (target.protocol && target.protocol.indexOf('https') > -1)){
     http_get = https.get;
 }
 

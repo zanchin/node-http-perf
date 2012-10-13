@@ -11,9 +11,14 @@ module.exports = {
             host: 'localhost',
             port: 8080,
             path: '/path/to/http/resource',
-            headers: {  
+            headers: {
                 'X-Optional-Header': "header value"
             }
+        },
+        ssl: {
+            host: 'www.google.com',
+            protocol: 'https:',
+            path: '/'
         },
         google: {
             host: 'www.google.com',
