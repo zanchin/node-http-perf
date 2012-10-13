@@ -104,6 +104,7 @@ var requests = 0;
 var response_count = 1;
 
 var stats = {
+    statuses: {},
     min: 99999999999,
     max: -1,
     avg: -1,
@@ -113,7 +114,10 @@ var stats = {
 };
 
 stats.start = stats.start || new Date().getTime();
-var updateStats = function(time){
+var updateStats = function(time, status){
+    stats.statuses[status] = stats.statuses[status] || 0;
+    stats.statuses[status]++;
+
     if( time < stats.min ) stats.min = time;
     if( time > stats.max ) stats.max = time;
     stats.avg = (stats.avg*stats.count + time)/++stats.count;
@@ -167,11 +171,11 @@ var makeCall = function(done, req_id){
 
         log_request(r);
 
-        done(client_time);
+        done(client_time, status);
     }).on('error', function(e) {
         var time = new Date().getTime() - start;
         console.log("Got error: " + e.message);
-        done(time);
+        done(time, 0);
     });
 };
 
@@ -185,8 +189,8 @@ function go(){
             return;
         }
 
-        makeCall(function(time){
-            updateStats(time);
+        makeCall(function(time, status){
+            updateStats(time, status);
             requests--;
 
             if( requests == 0 && total_requests >= max_requests ){
