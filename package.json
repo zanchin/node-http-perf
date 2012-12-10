@@ -17,8 +17,8 @@
         "nperf": "./bin/nperf"
     },
     "dependencies": {
-        "optimist": "*",
-        "colors": "*"
+        "optimist": "0.3.x",
+        "colors": "0.6.x"
     },
     "license": "MIT",
     "engines": {
