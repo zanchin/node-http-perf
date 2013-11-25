@@ -148,30 +148,33 @@ var makeCall = function(done, req_id){
     var start = new Date().getTime();
 
     http_get(target, function(res) {
-        var client_time = new Date().getTime() - start;
-        var status = res.statusCode;
+        res.on('data', function(){/*Do nothing. Consume data so the connection ends.*/});
+        res.on('end', function(){
+            var client_time = new Date().getTime() - start;
+            var status = res.statusCode;
 
-        // show server-compute time if server reports it
-        function get_server_time(res){
-            if(res.headers["x-response-time"]) return res.headers["x-response-time"];
-            if(res.headers["x-runtime"]) return Math.floor(res.headers["x-runtime"]*1000);
-            return -1;
-        }
-        var server_time = get_server_time(res);
+            // show server-compute time if server reports it
+            function get_server_time(res){
+                if(res.headers["x-response-time"]) return res.headers["x-response-time"];
+                if(res.headers["x-runtime"]) return Math.floor(res.headers["x-runtime"]*1000);
+                return -1;
+            }
+            var server_time = get_server_time(res);
 
-        //console.error(util.inspect(res.headers));
+            //console.error(util.inspect(res.headers));
 
-        var r = {
-            status: status,
-            request_id: req_id,
-            response_count: response_count++,
-            client_time: client_time,
-            server_time: server_time
-        };
+            var r = {
+                status: status,
+                request_id: req_id,
+                response_count: response_count++,
+                client_time: client_time,
+                server_time: server_time
+            };
 
-        log_request(r);
+            log_request(r);
 
-        done(client_time, status);
+            done(client_time, status);
+        });
     }).on('error', function(e) {
         var time = new Date().getTime() - start;
         console.log("Got error: " + e.message);
