@@ -1,7 +1,7 @@
 {
     "name": "http-perf",
     "preferGlobal": true,
-    "version": "0.0.4",
+    "version": "0.0.5",
     "author": "Ilya Braude <ilya@cloudmine.me>",
     "description": "a simple utility to test an http server and get stats",
     "homepage": "https://github.com/zanchin/node-http-perf",
