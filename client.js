@@ -155,7 +155,7 @@ var makeCall = function(done, req_id){
 
             // show server-compute time if server reports it
             function get_server_time(res){
-                if(res.headers["x-response-time"]) return res.headers["x-response-time"];
+                if(res.headers["x-response-time"]) return parseInt(res.headers["x-response-time"]);
                 if(res.headers["x-runtime"]) return Math.floor(res.headers["x-runtime"]*1000);
                 return -1;
             }
